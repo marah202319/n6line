@@ -171,6 +171,14 @@ if(empty($_SESSION['login'])) {
 header('Location: ./traitement/deconnexion.php');
 }?> 
 
+<?php
+    try{ 
+        $bdd = new PDO('mysql:host=localhost;dbname=n6line;charset=utf8','root',''); 
+    }
+    catch(Exception $e){
+        die('Erreur : '.$e->getMessage()); 
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -230,6 +238,13 @@ header('Location: ./traitement/deconnexion.php');
             <li><a href="./chat.php">Messagerie</a></li>
             <li><a href="#">Groupes</a></li>
              <li><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></li>
+			 <?php $id=$bdd->query('SELECT id FROM utilisateur where uha= \''.$_SESSION['login'].'\'');
+					$idutil=$id->fetch();
+			 $nb = $bdd->query('SELECT count(idutil) as id_util FROM notificationmessage INNER JOIN utilisateur ON notificationmessage.idutil = utilisateur.id where utilisateur.id ='.$idutil['id'].' AND notificationmessage.vu=0');
+					 $nb_mess=$nb->fetch();
+					echo('<li><font color="red">'.$nb_mess['id_util'].'</font></li>');
+					?>
+					
               <li><a href="#"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></li>
               <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
 			  
