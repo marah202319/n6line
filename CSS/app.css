@@ -1,0 +1,61 @@
+body {
+    background: #252525;
+    font-family: 'Open Sans';
+    font-weight: 300;
+}
+.main {
+    background: white url("../img/ensisa.jpg") right top no-repeat;
+    background-size: contain;
+    padding: 80px 20px 20px;
+    margin-top: 120px;
+}
+@media only screen and (max-width : 992px) {
+    .main {
+        background: white;
+        margin-top: 30px;
+    }
+}
+h1 {
+    font-family: 'Lato', sans-serif;
+    font-weight: bold; /*300*/
+	font-size: 45px;
+    color: #555;
+    margin-bottom: 0;
+}
+h2 {
+    font-family: 'Lato', sans-serif;
+    font-weight: bold; /*300*/
+    color: #999;
+    font-size: 18px;
+    margin-top: 5px;
+}
+form {
+    margin-top: 60px;
+	
+}
+input.form-control , input[type="submit"], input[type="reset"] , .btn {
+    border-radius: 20px;
+}
+.btn {
+    transition: all ease-in-out 0.2s;
+	display: inline;
+}
+.col-md-offset-0{
+	display: inline;
+}
+
+.credits {
+    /*margin-top: 100px;*/
+    color: #555;
+    font-size: 15px;
+}
+.credits a {
+    color: inherit;
+}
+
+#q1{
+	margin-top:100px;
+}
+#q2{
+	margin-top:5px;
+}

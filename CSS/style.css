@@ -1,0 +1,15 @@
+body { 
+    padding-top: 70px;
+    
+}
+
+#message{
+height:80%;
+width:75%;
+background-color:green;
+border-style:solid;
+text-align:center;
+
+overflow: auto;
+
+}
