@@ -55,7 +55,7 @@ document.getElementById('list').innerHTML = tmp;
 
 xhr_object.send(null);
 
-setTimeout('refresh_liste()', 100);
+setTimeout('refresh_liste()', 3000);
 
 }
 
@@ -160,7 +160,7 @@ document.getElementById('chat').innerHTML = tmp;
 
 xhr_object.send(null);
 
-setTimeout('refresh_chat()', 100);
+setTimeout('refresh_chat()', 1500);
 
 }
 
@@ -223,9 +223,11 @@ header('Location: ./traitement/deconnexion.php');
           <a class="navbar-brand" href="#"><img src="./img/image1.png"></a>
         </div>
           <div class="navbar-collapse collapse col-sm-3 col-md-3 navbar-left">
-              <form class="navbar-form" role="search">
+              <form class="navbar-form" action="./traitement/search_contenu.php" method="post" name="search">
                   <div class="input-group">
-                      <input type="text" class="form-control" placeholder="Chercher" name="q">
+				  
+                      <input type="text" class="form-control" placeholder="Chercher des actualités" name="search">
+					  
                       <div class="input-group-btn">
                           <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                       </div>
