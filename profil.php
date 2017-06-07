@@ -308,6 +308,8 @@ setTimeout('refresh_liste()', 100);
 		}
 		
 		include('./traitement/smiley.php'); 
+		include('traitement/nb_coms.php'); 
+		
 		while($donnees=$rep->fetch()){
 			echo('<div class="div_news">');
 			$id_actualite = $bdd ->query('SELECT id from actualite where contenu = \''.$donnees['contenu'].'\' and titre = \''.$donnees['titre'].'\' ') ; 
@@ -324,11 +326,12 @@ setTimeout('refresh_liste()', 100);
 			<?php 
 			echo('<h2>'.$donnees['titre'].'</h2>');
 			
-			/*
-			if($donnees['fichier'] != ''){
-			?>
-				<img src="./uploaded/android.jpg" width="200" height="200">  
-			<?php
+			
+			/*if($donnees['fichier'] != ''){
+				echo "<img src="; 
+				echo './uploaded/'; 
+				echo ''.$donnees['contenu'].''; 
+				echo 'width="200" height="200">';   
 			}*/
 			
 			echo('<p>'.filtre_texte($donnees['contenu']).'<p>');
@@ -339,7 +342,7 @@ setTimeout('refresh_liste()', 100);
 			echo('<p>'.$donnees['date'].'<p>');
 			?>
 			
-				<a href='./traitement/commenter.php?id=<?php echo $id[0]; ?> '>Commenter</a>
+				<a href='./traitement/commenter.php?id=<?php echo $id[0]; ?> '>Commenter <?php echo '('.count_com($id[0]).')' ; ?> </a>
 			
 			<?php
 			echo('</div>');
