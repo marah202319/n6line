@@ -67,16 +67,18 @@ echo ('Bienvenue '.$accueil['nom'].' '.$accueil['prenom'].' ');
 echo('<h1> Les actualités :</h1>');
 $rep = $bdd->query('SELECT * FROM actualite INNER JOIN post on actualite.id = post.idact INNER JOIN utilisateur on post.iduti = utilisateur.id ORDER BY date desc');
 
-			$id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
-			$id_uti = $id_utilisateur->fetch();
+$id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
+$id_uti = $id_utilisateur->fetch();
 			
-		include('./smiley.php'); 
+include('./smiley.php'); 
+include('nb_coms.php'); 
+
 while($donnees=$rep->fetch()){
 	echo('<div class="well">');
-		if($donnees['id'] == $id_uti[0]){
-		?>	
-			<a href='./traitement/deleteOnHome.php?id=<?php echo $donnees['idact']; ?> '>Supprimer</a>
-		<?php 
+	if($donnees['id'] == $id_uti[0]){
+	?>	
+		<a href='./traitement/deleteOnHome.php?id=<?php echo $donnees['idact']; ?> '>Supprimer</a>
+	<?php 
 	}
 	echo('<h2>'.$donnees['titre'].'</h2>');
 	echo('<p>'.filtre_texte($donnees['contenu']).'<p>');
@@ -86,6 +88,11 @@ while($donnees=$rep->fetch()){
 	echo('</br>');
 	echo('<p>'.$donnees['date'].'<p>');
 	echo('<p> Par '.$donnees['prenom'].' '.$donnees['nom'].'<p>');
+	
+	?>
+		<a href='./traitement/commenter.php?id=<?php echo $donnees['idact']; ?> '>Commenter <?php echo '('.count_com($donnees['idact']).')' ; ?> </a>
+	<?php
+	
 	echo('</div>');
 }
 
