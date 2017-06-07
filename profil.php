@@ -1,11 +1,4 @@
-<?php
-    try{ 
-        $bdd = new PDO('mysql:host=localhost;dbname=n6line;charset=utf8','root',''); 
-    }
-    catch(Exception $e){
-        die('Erreur : '.$e->getMessage()); 
-    }
-?>
+<?php include('header.php'); ?>
 
 <script>
 function refresh_liste()
@@ -54,20 +47,13 @@ document.getElementById('list').innerHTML = tmp;
 
 xhr_object.send(null);
 
-setTimeout('refresh_liste()', 100);
+setTimeout('refresh_liste()', 1500);
 
 }
 
 </script>
 
-
-<! DOCTYPE html>
-<html lang="fr">
-
-<head>
-	
-	<?php 
-	session_start(); 
+<?php 
 	$login = $_SESSION['login'] ;
 	
 	$req = $bdd->query('SELECT nom,prenom from utilisateur where uha =\''.$login.'\' ');  
@@ -78,40 +64,42 @@ setTimeout('refresh_liste()', 100);
 	
 	
 	?>
-	
-    <meta charset="utf-8" />
-	<link rel="stylesheet" href="./CSS/style_profil.css" />
-	
-</head>
-
 <body onload='refresh_liste(); refresh_actualite();'>
 
-	<header>
-		<h1><a href="profil.php">
-		
-		<?php 
-			echo '<p>'.$donnees['prenom']." ".$donnees['nom'].'</p>' ; 
-		?>
-		
-		</a></h1>
-		
-	</header>
-	
-	<section id="contenu">
-	
-		<section id="accueil">
-			
-			<div id="accueil_gauche">
-		
-				<p>
-				<img src="./img/profilinconnu.jpg" width="200px" height="250px" title="photo de profil" alt="photo de profil" />
-				</p>
-				
-			</div>
-			
-			<div id="accueil_centre">
-			
-				<ul>
+    <div class="container">
+        <div class="row" style="">
+            <div class="col-md-3" id="list" >
+                <strong>Profil  </strong> <a href="#" class="btn btn-xs btn-danger"> Déconnexion</a> 
+                <h4>Groupes</h4>
+                <a href="#" class="btn-sm btn-info" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Groupe 1 <br /></a>
+                <a href="#" class="btn-sm btn-info" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Groupe 2 <br /></a>
+                <a href="#" class="btn-sm btn-info" > <span class="glyphicon glyphicon-user" aria-hidden="true"></span>Groupe 3 <br /></a>
+                <h4>Evénements</h4>
+               <a href="#" class="btn-sm btn-warning"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>Evénement 1 <br /></a>
+                <a href="#" class="btn-sm btn-warning"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>Evénement 2 <br /></a>
+                <a href="#" class="btn-sm btn-warning"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>Evénement 3 <br /></a>
+               <h4>E-Services</h4>
+                <a href="http://www.edt.iariss.fr" class="btn-sm btn-success" target="_blank"><span  aria-hidden="true"></span>Emploi du temps <br /></a>
+                <a href="https://e-partage.uha.fr/" class="btn-sm btn-success" target="_blank"><span  aria-hidden="true"></span>E-partage <br /></a>
+                <a href="https://www.e-formation.uha.fr/moodle/" class="btn-sm btn-success" target="_blank"><span  aria-hidden="true"></span>Moodle <br /></a>
+                
+                
+        
+      </div>
+            <div class="col-md-7" >
+                 <div class="well">  
+                    <div class="row">
+                     <div class="col-md-12">
+                        <div class="col-md-6">
+                          <h4>
+                             <a href="profil.html" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profil<br /></a>
+                          </h4>
+                            <p id="photoprofil">
+                                <img src="imag4.png"/ style="width:60%;height:150px;">
+                            </p>
+                         </div>
+                          <div class="col-md-6">
+                           <p>
 				
 					<?php
 						$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
@@ -121,29 +109,16 @@ setTimeout('refresh_liste()', 100);
 						
 						while($donnees=$rep->fetch()){
 	
-							echo('<li>'.'Nom : '.$donnees['nom'].'</li>');
-							echo('<li>'.'Prénom : '.$donnees['prenom'].'</li>');
-							echo('<li>'.'Adresse UHA : '.$donnees['uha'].'</li>');
-							echo('<li>'.'Âge : '.$donnees['age'].'</li>');
-							echo('<li>'.'Adresse : '.$donnees['adresse'].'</li>');
+							echo('Nom : '.$donnees['nom'].'</br>');
+							echo('Prénom : '.$donnees['prenom'].'</br>');
+							echo('Adresse UHA : '.$donnees['uha'].'</br>');
+							echo('Âge : '.$donnees['age'].' ans</br>');
+							echo('Adresse : '.$donnees['adresse'].'</br>');
 						}
-					
-					?>	
-				</ul>
-					
-			</div>
-			
-			<div id="accueil_droite">
-			
-				<div id="logo_haut">
-					<p>
-						<img src="./img/logo1.jpg" width="150px" height="100px" title="logo1" alt="logo1" />
-					</p>
-				</div>
-				
-				<div id="logo_bas">
-				
-					<p> 
+						
+						?>
+						</p>
+						<p>
 						<?php
 							/* Sélection de la fonction de la personne, ou affichage de la promo si étudiant */ 
 							
@@ -151,21 +126,15 @@ setTimeout('refresh_liste()', 100);
 							$id_utilisateur = $rep->fetch(); 
 							$rep2 = $bdd->query('SELECT promotion from Etudiant where id=\''.$id_utilisateur[0].'\' ');
 							$promo = $rep2->fetch(); 
-							echo $promo[0] ; 
+							echo (''.$promo[0].'') ; 
 							
 							$rep3 = $bdd->query('SELECT fonction from administration where id=\''.$id_utilisateur[0].'\' ');
 							$fonction = $rep3->fetch();
-							echo $fonction[0]; 
-							
+							echo (''.$fonction[0].''); 
 						?>
-					</p>
-					
-					
-					<p>
+						</p>
+						<p>
 						<?php
-							
-							/* affichage de la filière de la personne si étudiant */ 
-							
 							$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
 							$id_utilisateur = $rep->fetch(); 
 							
@@ -173,20 +142,9 @@ setTimeout('refresh_liste()', 100);
 							$filiere= $rep2->fetch(); 
 							
 							echo $filiere[0];
-						?>
-					</p>
-					
-					<p><a href="./traitement/modification_profil.php">Modifier le profil</a></p>
-					
-				</div>
-				
-			</div>
-			
-		</section>
-		
-		<section id="description">
-		
-			<form name = "description" method="post" >
+					?>	
+				</p>
+                           <form name = "description" method="post" >
 			
 				<textarea align="left" placeholder="Ecrivez quelque chose sur vous ici ... " name="description_profil" style="height: 15%; width: 100%"><?php
 					$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
@@ -206,12 +164,16 @@ setTimeout('refresh_liste()', 100);
 				<input type="submit" name="Modifier" value="Modifier" >
 				
 			</form>
-			
-			
-		</section>
-		
-			
-		<div id ="Publication" >
+                          </div>
+                        </div>
+                     </div>  
+                </div>
+                  <div class="well"> 
+                    <a href="#">Paramètres du compte</a><br/>
+                    <a href="#">Changer votre photo de profil</a><br/>
+                    <a href="./traitement/modification_profil.php">Modifier</a><br/>
+                   </div>
+                   <div class="well" >
 			<form name="Publier" method="post">
 		
 				<input type="textarea" placeholder="Un titre" name="titre" style="height: 5%; width: 100%">
@@ -222,39 +184,9 @@ setTimeout('refresh_liste()', 100);
 				
 				
 			</form>
-		</div>
-		
-		
-
-		<div id="list">
-		// <?php
-
-			// echo('<h1> Amis connectés :</h1>');
-			// $req = $bdd->query('SELECT nom,prenom from utilisateur where uha =\''.$login.'\' ');  
-			// $rep = $bdd->query('SELECT nom,prenom FROM utilisateur WHERE connecte=1 AND uha !=\''.$login.'\' '); 
-			
-			// echo('<ul>');
-		
-			// while($donnees=$rep->fetch()){
-				// echo('<li>'.$donnees['nom'].' '.$donnees['prenom'].'</li>');
-				// }
-			// echo('</ul>');
-
-			// echo('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>');
-
-			// echo('<h1> Ami hors ligne :</h1>');
-			// $rep = $bdd->query('SELECT nom,prenom FROM utilisateur WHERE connecte=0');
-			// echo('<ul>');
-		
-			// while($donnees=$rep->fetch()){
-				// echo('<li>'.$donnees['nom'].' '.$donnees['prenom'].'</li>');
-			// }
-			// echo('</ul>');
-		// ?>
-		</div>
-	
-		<div id="actualite">
-		<?php
+                   </div>
+            <div class="well" >
+               <?php
 			if(isset($_POST['Publier'])){ 
 				if(!empty($_POST['contenu'])){ 
 				echo '<p> OK ! </p>' ; 
@@ -277,7 +209,7 @@ setTimeout('refresh_liste()', 100);
 			
 				$insert_post = $bdd->query('INSERT INTO post VALUES(\''.$id_uti[0].'\',\''.$id_act[0].'\') '); 
 			
-				header("location:profil.php"); 
+				//header("location:profil.php"); 
 			}
 			}
 		
@@ -291,11 +223,13 @@ setTimeout('refresh_liste()', 100);
 		
 		
 		echo('<h2> Mes publications </h2>');
+								$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
+						$id_utilisateur = $rep->fetch(); 
 		$rep = $bdd->query('SELECT * FROM actualite INNER JOIN post on actualite.id = post.idact INNER JOIN utilisateur on post.iduti = utilisateur.id where utilisateur.id = \''.$id_utilisateur[0].'\' ORDER BY date desc');
 
 		include('./traitement/smiley.php'); 
 		while($donnees=$rep->fetch()){
-			echo('<div class="div_news">');
+			echo('<div class="well">');
 			$id_actualite = $bdd ->query('SELECT id from actualite where contenu = \''.$donnees['contenu'].'\' and titre = \''.$donnees['titre'].'\' ') ; 
 			$id = $id_actualite->fetch(); 
 						?>	
@@ -316,25 +250,32 @@ setTimeout('refresh_liste()', 100);
 		echo('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>');
 	
 	?>
-		
-		</div>
-	
-		<div id="groupe">
-			<?php include('./traitement/liste_groupe.php'); ?>
-		</div>
-	
-		<form name="x" action="./chat.php" method="post">
-			<input type="submit" value="Messagerie" />
-		</form>
+            </div>
+            
+         </div>
+        <div class="row">
+             <div class="chat col-md-3">
+                 <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class=panel-title>Chat</h3>
+                     </div>
+                     <div class="panel-body">
+                     Oussama : Salut <br/>
+                     User : Comment tu vas ?<br/>
+                     Oussama : bien ou quoi ?<br/>
+                     user : Ouai tranquille !<br/>
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </div><!-- /.container -->
+        
 
-		<form method="post" action="./traitement/deconnexion.php">
-			<input type="submit" name ="deconnexion" value="Se déconnecter" />
-		</form>
-		
-		
-		
-		
-	</section>
-<?php 
-	include('footer.php'); 
-?>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    
+  </body>
+</html>
