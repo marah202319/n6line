@@ -76,7 +76,7 @@ $name = $bdd->query('SELECT id FROM utilisateur where uha = \''.$login.'\'');
 $sessionid=$name->fetch();
 
 	$id = $_GET['id']; 
-	if($sessionid = $id){
+	if($sessionid == $id){
 		header("location:../profil.php");
 	}
 	$req = $bdd->query('SELECT nom,prenom from utilisateur where id ='.$id.' ');  

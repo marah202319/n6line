@@ -234,6 +234,18 @@ header('Location: ./traitement/deconnexion.php');
                   </div>
               </form>
           </div>
+		  <div class="navbar-collapse collapse col-sm-3 col-md-3 navbar-left">
+              <form class="navbar-form" action="./traitement/search_personne.php" method="post" name="search">
+                  <div class="input-group">
+				  
+                      <input type="text" class="form-control" placeholder="Chercher des personnes" name="search">
+					  
+                      <div class="input-group-btn">
+                          <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                      </div>
+                  </div>
+              </form>
+          </div>
         <div id="navbar" class="collapse navbar-collapse">
          <ul class="nav navbar-nav navbar-right">
             <li><a href="./profil.php">Profil</a>.</li>
