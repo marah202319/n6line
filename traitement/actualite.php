@@ -44,7 +44,7 @@ echo ('Bienvenue '.$accueil['nom'].' '.$accueil['prenom'].' ');
 			$id_act = $id_actualite ->fetch();
 			
 			
-			$insert_post = $bdd->query('INSERT INTO post VALUES(\''.$id_uti[0].'\',\''.$id_act[0].'\') '); 
+			$insert_post = $bdd->query('INSERT INTO post VALUES(\''.$id_uti[0].'\',\''.$id_act[0].'\',0) '); 
 			
 			echo 'OK!' ; 
 			

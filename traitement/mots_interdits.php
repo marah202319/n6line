@@ -1,7 +1,7 @@
 <?php 
 		/* analyse du texte rentré en paramètre et recherche dans un fichier txt */ 
 	$existe = FALSE; 
-	$monfichier = fopen('.\\ressource\\mots.txt', 'r+');
+	$monfichier = fopen('..\\ressource\\mots.txt', 'r+');
 	while (!feof($monfichier) && !$existe) {
 		$ligne = fgets($monfichier, 1024);
 		if (preg_match('|\b' . preg_quote($_POST['contenu']) . '\b|i', $ligne)){

@@ -1,4 +1,4 @@
-<?php include('header.php'); ?>
+﻿<?php include('header.php'); ?>
 
 <script>
 function refresh_liste()
@@ -73,21 +73,7 @@ setTimeout('refresh_liste()', 1500);
 		</form>
         <div class="row" style="">
             <div class="col-md-3" id="list" >
-                <strong>Profil  </strong> <a href="#" class="btn btn-xs btn-danger"> Déconnexion</a> 
-                <h4>Groupes</h4>
-                <a href="#" class="btn-sm btn-info" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Groupe 1 <br /></a>
-                <a href="#" class="btn-sm btn-info" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Groupe 2 <br /></a>
-                <a href="#" class="btn-sm btn-info" > <span class="glyphicon glyphicon-user" aria-hidden="true"></span>Groupe 3 <br /></a>
-                <h4>Evénements</h4>
-               <a href="#" class="btn-sm btn-warning"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>Evénement 1 <br /></a>
-                <a href="#" class="btn-sm btn-warning"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>Evénement 2 <br /></a>
-                <a href="#" class="btn-sm btn-warning"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>Evénement 3 <br /></a>
-               <h4>E-Services</h4>
-                <a href="http://www.edt.iariss.fr" class="btn-sm btn-success" target="_blank"><span  aria-hidden="true"></span>Emploi du temps <br /></a>
-                <a href="https://e-partage.uha.fr/" class="btn-sm btn-success" target="_blank"><span  aria-hidden="true"></span>E-partage <br /></a>
-                <a href="https://www.e-formation.uha.fr/moodle/" class="btn-sm btn-success" target="_blank"><span  aria-hidden="true"></span>Moodle <br /></a>
-                
-                
+
         
       </div>
             <div class="col-md-7" >
@@ -96,7 +82,7 @@ setTimeout('refresh_liste()', 1500);
                      <div class="col-md-12">
                         <div class="col-md-6">
                           <h4>
-                             <a href="profil.html" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profil<br /></a>
+                             <a href="profil.html" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Groupe<br /></a>
                           </h4>
                             <p id="photoprofil">
                                 <img src="imag4.png"/ style="width:60%;height:150px;">
@@ -108,64 +94,56 @@ setTimeout('refresh_liste()', 1500);
 					<?php
 						$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
 						$id_utilisateur = $rep->fetch(); 
-						$rep = $bdd->query('SELECT * FROM utilisateur where id=\''.$id_utilisateur[0].'\' ');
+						$rep = $bdd->query('SELECT * FROM groupe where id=\''.$_GET['valeur'].'\' ');
 						
 						
 						while($donnees=$rep->fetch()){
 	
 							echo('Nom : '.$donnees['nom'].'</br>');
-							echo('Prénom : '.$donnees['prenom'].'</br>');
-							echo('Adresse UHA : '.$donnees['uha'].'</br>');
-							echo('Âge : '.$donnees['age'].' ans</br>');
-							echo('Adresse : '.$donnees['adresse'].'</br>');
 						}
 						
 						?>
 						</p>
 						<p>
 						<?php
-							/* Sélection de la fonction de la personne, ou affichage de la promo si étudiant */ 
+						echo('<h4> Liste des membres </h4>');
+						$membre=$bdd->query('SELECT * FROM groupe INNER JOIN appartient ON groupe.id = appartient.idGroup INNER JOIN utilisateur ON appartient.idUtil = utilisateur.id where groupe.id='.$_GET['valeur'].' ORDER BY appartient.admin DESC');
+						while($mem=$membre->fetch()){
+							if($mem['admin'] == 1){
+								echo('<p>'.$mem['prenom'].' '.$mem['nom'].' ADMINISTRATEUR </p>');
+							}
+							else{
+								echo('<p>'.$mem['prenom'].' '.$mem['nom'].'');
+							}
 							
-							$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
-							$id_utilisateur = $rep->fetch(); 
-							$rep2 = $bdd->query('SELECT promotion from Etudiant where id=\''.$id_utilisateur[0].'\' ');
-							$promo = $rep2->fetch(); 
-							echo (''.$promo[0].'') ; 
-							
-							$rep3 = $bdd->query('SELECT fonction from administration where id=\''.$id_utilisateur[0].'\' ');
-							$fonction = $rep3->fetch();
-							echo (''.$fonction[0].''); 
+						}
 						?>
 						</p>
-						<p>
-						<?php
-							$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
-							$id_utilisateur = $rep->fetch(); 
-							
-							$rep2 = $bdd->query('SELECT filiere from etudiant where id = \''.$id_utilisateur[0].'\' ');
-							$filiere= $rep2->fetch(); 
-							
-							echo $filiere[0];
-					?>	
-				</p>
-                           <form name = "description" method="post" >
-			
-				<textarea align="left" placeholder="Ecrivez quelque chose sur vous ici ... " name="description_profil" style="height: 15%; width: 100%"><?php
-					$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
-					$id_utilisateur = $rep->fetch(); 
+						
+
+				<form name = "description" method="post" >
+				<textarea align="left" placeholder="Modifier la description du Groupe ... " name="description_groupe" style="height: 15%; width: 100%"><?php
+						
 					if(isset($_POST['Modifier'])){ 
-						if(!empty($_POST['description_profil'])){ 
-							$description = $_POST['description_profil'];
-							$bdd->query('UPDATE utilisateur SET description = \''.$description.'\' where id = \''.$id_utilisateur[0].'\' ');
+						if(!empty($_POST['description_groupe'])){ 
+							$description = $_POST['description_groupe'];
+							$bdd->query('UPDATE groupe SET description = \''.$description.'\' where id = \''.$_GET['valeur'].'\' ');
 						}
 					}
-					$rep2 = $bdd->query('SELECT description from utilisateur where id = \''.$id_utilisateur[0].'\' ');
+					$rep2 = $bdd->query('SELECT description from groupe where id = \''.$_GET['valeur'].'\' ');
 					$descr = $rep2->fetch(); 
 					
 					echo $descr[0]; 
 					
 				?></textarea>
-				<input type="submit" name="Modifier" value="Modifier" >
+									<?php
+					$rep = $bdd->query('SELECT * FROM groupe INNER JOIN appartient ON groupe.id = appartient.idGroup INNER JOIN utilisateur ON appartient.idUtil = utilisateur.id where groupe.id='.$_GET['valeur'].' AND utilisateur.uha = \''.$login.'\' ');  
+					$id_utilisateur = $rep->fetch(); 
+						if($id_utilisateur['admin'] == 1){
+                           echo('<input type="submit" name="Modifier" value="Modifier" >');
+						}
+						?>
+				
 				
 			</form>
                           </div>
@@ -173,9 +151,12 @@ setTimeout('refresh_liste()', 1500);
                      </div>  
                 </div>
                   <div class="well"> 
-                    <a href="#">Paramètres du compte</a><br/>
-                    <a href="#">Changer votre photo de profil</a><br/>
-                    <a href="./traitement/modification_profil.php">Modifier</a><br/>
+				  <?php if($id_utilisateur['admin'] == 1){
+                    echo('<a href="#">Supprimer le groupe</a><br/>');
+                    echo('<a href="#">Changer la photo du groupe</a><br/>');
+                    echo('<a href="#">Gestion des membres</a><br/>');
+				  }
+				  else echo('L\'accès au panel de gestion du groupe est reservé aux administrateurs');?>
                    </div>
                    <div class="well" >
 			<form name="Publier" method="post">
@@ -236,9 +217,13 @@ setTimeout('refresh_liste()', 1500);
 			echo('<div class="well">');
 			$id_actualite = $bdd ->query('SELECT id from actualite where contenu = \''.$donnees['contenu'].'\' and titre = \''.$donnees['titre'].'\' ') ; 
 			$id = $id_actualite->fetch(); 
-						?>	
-				<a href='./traitement/deleteOnProfile.php?id=<?php echo $id[0]; ?> '>Supprimer</a>
-			<?php 
+			$tmp = $bdd->query('SELECT * FROM groupe INNER JOIN appartient ON groupe.id = appartient.idGroup INNER JOIN utilisateur ON appartient.idUtil = utilisateur.id where groupe.id='.$_GET['valeur'].' AND utilisateur.uha = \''.$login.'\' ');  
+			$util = $tmp->fetch(); 
+							
+						if($util['admin'] == 1){
+				echo('<a href=\'./traitement/deleteOnProfile.php?id='.$id[0].'\'>Supprimer</a>');
+						}
+			
 
 			echo('<h2>'.$donnees['titre'].'</h2>');
 			echo('<p>'.filtre_texte($donnees['contenu']).'<p>');

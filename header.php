@@ -83,7 +83,7 @@ header('Location: ./traitement/deconnexion.php');
          <ul class="nav navbar-nav navbar-right">
             <li><a href="./profil.php">Profil</a>.</li>
             <li><a href="./chat.php">Messagerie</a></li>
-            <li><a href="#">Groupes</a></li>
+            <li><a href="./groupe.php">Groupe</a></li>
              <li><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></li>
 			 <?php $id=$bdd->query('SELECT id FROM utilisateur where uha= \''.$_SESSION['login'].'\'');
 					$idutil=$id->fetch();

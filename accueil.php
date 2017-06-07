@@ -189,7 +189,7 @@ setTimeout('refresh_chat()', 1500);
 					<div class="well" >
 						<div id ="Publication" class="row">
 							
-							<form name="Publier" action="./traitement/actualite.php" method="post">
+							<form name="Publier" action="./traitement/actualite_groupe.php" method="post">
 							
 								<input type="textarea" placeholder="Un titre" name="titre" style="height: 5%; width: 100%">
 								<input type="textarea" placeholder="Où étiez-vous ? " name="position" style="height: 5%; width: 100%">
