@@ -218,7 +218,6 @@ setTimeout('refresh_liste()', 100);
 				<input type="textarea" placeholder="Où étiez-vous ? " name="position" style="height: 5%; width: 100%">
 				<input type="textarea" placeholder="Rédigez votre publication ici" name="contenu" style="height: 10%; width: 100%"> 
 				<input type ="submit" name="Publier" value="Publier" >
-				<input type ="submit" name="Photo/video" value="Photo/vidéo" >
 				<input type="hidden" name="MAX_FILE_SIZE" value="100000"> Fichier : <input type="file" name="fichier"> <!-- onchange="this.form.submit()" -->
 				
 			</form>
@@ -284,8 +283,9 @@ setTimeout('refresh_liste()', 100);
 				$id_uti = $id_utilisateur->fetch();
 				$id_act = $id_actualite ->fetch(); 
 			
-				$insert_post = $bdd->query('INSERT INTO post VALUES(\''.$id_uti[0].'\',\''.$id_act[0].'\') '); 
-			
+				$insert_post = $bdd->prepare('INSERT INTO post VALUES(\''.$id_uti[0].'\',\''.$id_act[0].'\') '); 
+				$insert_post ->execute(); 
+				
 				header("location:profil.php"); 
 			}
 			
@@ -312,11 +312,11 @@ setTimeout('refresh_liste()', 100);
 			echo('<div class="div_news">');
 			$id_actualite = $bdd ->query('SELECT id from actualite where contenu = \''.$donnees['contenu'].'\' and titre = \''.$donnees['titre'].'\' ') ; 
 			$id = $id_actualite->fetch(); 
-			echo $id[0]; 
+			//echo $id[0]; 
 			
 			$f = $bdd->query('SELECT fichier FROM actualite INNER JOIN image ON image.idact = actualite.id AND actualite.id = \''.$id[0].'\' ' ); 
 			$name_file = $f ->fetch(); 
-			echo $name_file[0];
+			//echo $name_file[0];
 			
 			
 			?>	
@@ -324,12 +324,12 @@ setTimeout('refresh_liste()', 100);
 			<?php 
 			echo('<h2>'.$donnees['titre'].'</h2>');
 			
-			//Rajouter un if (image.idact = 
-			//echo "<img src=\'./uploaded/'.\"".$name_file[0]."\">" ; 
-			//remplacer par $donnees['fichier'] 
+			/*
+			if($donnees['fichier'] != ''){
 			?>
-				<img src="./uploaded/'".$donnees['fichier']'." width="200" height="200">  
+				<img src="./uploaded/android.jpg" width="200" height="200">  
 			<?php
+			}*/
 			
 			echo('<p>'.filtre_texte($donnees['contenu']).'<p>');
 			if($donnees['position'] != ''){
@@ -339,9 +339,7 @@ setTimeout('refresh_liste()', 100);
 			echo('<p>'.$donnees['date'].'<p>');
 			?>
 			
-			<form name="Commenter" method="post" >
-				<input type ="submit" name="Commenter" value="Commenter" >
-			</form>
+				<a href='./traitement/commenter.php?id=<?php echo $id[0]; ?> '>Commenter</a>
 			
 			<?php
 			echo('</div>');
@@ -357,7 +355,11 @@ setTimeout('refresh_liste()', 100);
 		<div id="groupe">
 			<?php include('./traitement/liste_groupe.php'); ?>
 		</div>
-	
+		
+		<form method="post" action="accueil.php">
+			<input type="submit" name ="Accueil" value="Accueil" />
+		</form>
+		
 		<form name="x" action="./chat.php" method="post">
 			<input type="submit" value="Messagerie" />
 		</form>
