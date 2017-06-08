@@ -17,6 +17,7 @@
 	while($donnees=$rep->fetch()){
 		echo('<div class="well">');	
 		echo('<a href="groupe_page.php?valeur='.$donnees['id'].'">'.$donnees['nom'].'<br /></a>');
+		echo('<p>'.$donnees['description'].'</p>');
 		echo('</div>');
 	}
 

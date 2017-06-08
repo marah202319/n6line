@@ -9,20 +9,22 @@
 	
 	session_start(); 
 	$uha =$_SESSION['login'];
+	
+	
+if(isset($_COOKIE['variable'])){
 	$id=$_COOKIE['variable'];
-
-echo($id);
+// echo($id);
 $id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$uha.'\' '); 
 $id_uti = $id_utilisateur->fetch();
 $dtemp=$bdd->query('SELECT * FROM utilisateur WHERE id ='.$id.' ORDER BY nom DESC');
 $desti=$dtemp->fetch();
 //echo($desti['nom']);
-$stemp = $bdd->query('SELECT nom,prenom,id FROM utilisateur WHERE connecte=1 AND nom = '.$desti['nom'].' ');	
-// $statut = $stemp->fetch();
+$stemp = $bdd->query('SELECT nom,prenom,id,connecte FROM utilisateur WHERE nom = '.$desti['nom'].' ');	
+ //$statut = $stemp->fetch();
 // echo($desti['nom']);
 echo('<h1> '.$desti['nom'].' '.$desti['prenom'].'</h1>');
 
-if(!empty($stemp)) echo('Connecté');
+if($desti['connecte']==1) echo('Connecté');
 else echo('Déconnecté');
 $mess = $bdd->query('SELECT message.contenu,message.date FROM message INNER JOIN messtrans ON message.id = messtrans.idmessage WHERE (messtrans.idexp = '.$id_uti['id'].' AND messtrans.iddesti = '.$id.') OR (messtrans.idexp = '.$id.' AND messtrans.iddesti = '.$id_uti['id'].') ORDER BY message.date ASC');
 
@@ -36,6 +38,6 @@ while($donnees=$mess->fetch()){
 	$notif_valid=$bdd->query('UPDATE notificationmessage set vu=1 where idutil='.$id_uti['id'].' ');
 }
 
-
+}
 
 ?>

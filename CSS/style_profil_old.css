@@ -1,0 +1,143 @@
+*{
+    font-family: Comic Sans MS, sans-serif;
+    font-size:  large;
+}
+    
+
+h1 {
+    text-align: center;
+    margin-top:100px;
+    border-bottom: 1px solid black;
+    
+}
+
+body{
+    background-color: rgb(172, 242, 248);
+}
+
+
+
+#login_formulaire { 
+    margin-top:250px;
+    margin-left:1350px;
+
+}
+
+#description_connexion { 
+    width:600px;
+    margin-top:-325px;
+    margin-left: 150px;
+    padding: 10px;
+
+}
+
+#description_connexion p{
+    font-weight: 500;
+}
+
+
+#description_connexion p img {
+    border-radius: 20px;
+    box-shadow: 15px 10px 20px black;
+    margin-bottom: 15px;
+}
+
+/*#contenu div{
+    display: inline-block;
+}*/
+
+#login_formulaire{
+    
+}
+#n6line_logo{
+    
+}*/
+
+/* Style rajouté */ 
+
+
+*{
+margin:0;	
+}
+
+#list{
+	height:50%;
+	width:20%;
+	text-align:center;
+	display:inline-block;
+	background-color:blue;
+	vertical-align:top;
+	top:0;
+	
+}
+
+#list a{
+	color: #000000;
+text-decoration: none;
+font-weight: bold;
+}
+
+#list a:hover{ 
+color: #204D9B;
+text-decoration: underline; 
+font-weight: bold;	
+}
+
+#groupe{
+	height:50%;
+	width:20%;
+	text-align:center;
+	display:inline-block;
+	background-color:blue;
+	top:0;
+	
+}
+
+#actualite{
+height:100%;
+width:50%;
+right:0;
+background-color:grey;
+display:inline-block;
+text-align:center;
+vertical-align:top;
+top:0;
+
+}
+
+.div_news{
+	border-style:double;
+	background-color: white;
+	margin:10px;
+}
+
+#Publication {
+	border-style:double;
+	background-color: white;
+	margin:10px;
+}
+
+
+#message{
+height:80%;
+width:75%;
+right:0;
+background-color:green;
+border-style:solid;
+display:inline-block;
+text-align:center;
+vertical-align:top;
+top:0;
+float:center;
+
+}
+
+#texte{
+	width:75%;
+	display:inline-block;
+	text-align: center;
+	vertical-align: top;
+	float:right;
+	
+}
+}

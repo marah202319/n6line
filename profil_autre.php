@@ -1,4 +1,7 @@
-<?php include('header.php'); ?>
+<?php
+ include('header.php');
+
+ ?>
 
 <script>
 function refresh_liste()
@@ -54,7 +57,15 @@ setTimeout('refresh_liste()', 1500);
 </script>
 
 <?php 
+
 	$login = $_SESSION['login'] ;
+	$name = $bdd->query('SELECT id FROM utilisateur where uha = \''.$login.'\'');
+$sessionid=$name->fetch();
+
+	$id = $_GET['id']; 
+	if($sessionid['id'] == $id){
+		?><script type='text/javascript'>document.location.replace('profil.php');</script>"<?php
+	}
 	
 	$req = $bdd->query('SELECT nom,prenom from utilisateur where uha =\''.$login.'\' ');  
 	$donnees = $req->fetch(); 
@@ -67,13 +78,8 @@ setTimeout('refresh_liste()', 1500);
 <body onload='refresh_liste(); refresh_actualite();'>
 
     <div class="container">
-	
-	<strong>Profil  </strong> 	<form method="post" action="./traitement/deconnexion.php">
-		<input type="submit" name ="deconnexion" value="Se déconnecter" />
-		</form>
         <div class="row" style="">
             <div class="col-md-3" id="list" >
-                <strong>Profil  </strong> <a href="#" class="btn btn-xs btn-danger"> Déconnexion</a> 
 
                 
         
@@ -94,7 +100,7 @@ setTimeout('refresh_liste()', 1500);
                            <p>
 				
 					<?php
-						$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
+						$rep = $bdd->query('SELECT * FROM utilisateur where id='.$id.''); 
 						$id_utilisateur = $rep->fetch(); 
 						$rep = $bdd->query('SELECT * FROM utilisateur where id=\''.$id_utilisateur[0].'\' ');
 						
@@ -136,98 +142,30 @@ setTimeout('refresh_liste()', 1500);
 							echo $filiere[0];
 					?>	
 				</p>
-                           <form name = "description" method="post" >
+			<form name = "description" method="post" >
 			
-				<textarea align="left" placeholder="Ecrivez quelque chose sur vous ici ... " name="description_profil" style="height: 15%; width: 100%"><?php
-					$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
-					$id_utilisateur = $rep->fetch(); 
-					if(isset($_POST['Modifier'])){ 
-						if(!empty($_POST['description_profil'])){ 
-							$description = $_POST['description_profil'];
-							$bdd->query('UPDATE utilisateur SET description = \''.$description.'\' where id = \''.$id_utilisateur[0].'\' ');
-						}
-					}
-					$rep2 = $bdd->query('SELECT description from utilisateur where id = \''.$id_utilisateur[0].'\' ');
+				<textarea align="left" placeholder="Pas de description renseignée ... " name="description_profil" style="height: 15%; width: 100%"><?php
+					$rep2 = $bdd->query('SELECT description from utilisateur where id = \''.$id.'\' ');
 					$descr = $rep2->fetch(); 
 					
-					echo $descr[0]; 
-					
-				?></textarea>
-				<input type="submit" name="Modifier" value="Modifier" >
-				
+					echo $descr[0]; 				
+				?></textarea>			
 			</form>
                           </div>
                         </div>
                      </div>  
                 </div>
-                  <div class="well"> 
-                    <a href="#">Paramètres du compte</a><br/>
-                    <a href="#">Changer votre photo de profil</a><br/>
-                    <a href="./traitement/modification_profil.php">Modifier</a><br/>
-                   </div>
-                   <div class="well" >
-			<form name="Publier" method="post">
-		
-				<input type="textarea" placeholder="Un titre" name="titre" style="height: 5%; width: 100%">
-				<input type="textarea" placeholder="Où étiez-vous ? " name="position" style="height: 5%; width: 100%">
-				<input type="textarea" placeholder="Rédigez votre publication ici" name="contenu" style="height: 10%; width: 100%"> 
-				<input type ="submit" name="Publier" value="Publier" >
-				<input type ="submit" name="Photo/video" value="Photo/vidéo" >
-				
-				
-			</form>
-                   </div>
+
             <div class="well" >
-               <?php
-			if(isset($_POST['Publier'])){ 
-				if(!empty($_POST['contenu'])){ 
-				echo '<p> OK ! </p>' ; 
-				
-			 
-				$contenu = $_POST['contenu'];
-				$titre = $_POST['titre']; 
-				$time = date("Y-m-d H:i:s");
-				
-				include('./traitement/mots_interdits.php'); 
-			if($existe == FALSE ){ 
-			$insert_actualite = $bdd->prepare('INSERT INTO actualite(titre,contenu,position,fichier,date,mkgroup) VALUES( :titre , :contenu,:position, \'\' ,\''.$time.'\',0)'); 
-			$insert_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu'], 'position' => $_POST['position']));
-				$id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
-						$id_actualite = $bdd ->prepare('SELECT id from actualite where titre = :titre and contenu = :contenu') ; 
-			$id_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu']));
-			
-				$id_uti = $id_utilisateur->fetch();
-				$id_act = $id_actualite ->fetch(); 
-			
-				$insert_post = $bdd->query('INSERT INTO post VALUES(\''.$id_uti[0].'\',\''.$id_act[0].'\',0) '); 
-			
-				//header("location:profil.php"); 
-			}
-			}
-		
-			else{
-				/*echo"<script language=\"javascript\">" ; 
-				echo"alert('Vous devez saisir au moins du texte pour pouvoir publier')";
-				echo"</script>";*/
-				header("location:profil.php"); 
-				}
-		}
-		
-		
-		echo('<h2> Mes publications </h2>');
-								$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
-						$id_utilisateur = $rep->fetch(); 
-		$rep = $bdd->query('SELECT * FROM actualite INNER JOIN post on actualite.id = post.idact INNER JOIN utilisateur on post.iduti = utilisateur.id where utilisateur.id = \''.$id_utilisateur[0].'\' AND actualite.mkgroup = 0 ORDER BY date desc');
+			<?php
+		echo('<h2> Ses publications </h2>');
+		$rep = $bdd->query('SELECT * FROM actualite INNER JOIN post on actualite.id = post.idact INNER JOIN utilisateur on post.iduti = utilisateur.id where utilisateur.id = \''.$id.'\' ORDER BY date desc');
 
 		include('./traitement/smiley.php'); 
 		while($donnees=$rep->fetch()){
 			echo('<div class="well">');
 			$id_actualite = $bdd ->query('SELECT id from actualite where contenu = \''.$donnees['contenu'].'\' and titre = \''.$donnees['titre'].'\' ') ; 
 			$id = $id_actualite->fetch(); 
-						?>	
-				<a href='./traitement/deleteOnProfile.php?id=<?php echo $id[0]; ?> '>Supprimer</a>
-			<?php 
-
 			echo('<h2>'.$donnees['titre'].'</h2>');
 			echo('<p>'.filtre_texte($donnees['contenu']).'<p>');
 			if($donnees['position'] != ''){
@@ -237,6 +175,9 @@ setTimeout('refresh_liste()', 1500);
 			echo('<p>'.$donnees['date'].'<p>');
 			echo('</div>');
 }
+
+
+		echo('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>');
 
 
 		echo('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>');
