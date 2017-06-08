@@ -240,8 +240,8 @@ setTimeout('refresh_liste()', 1500);
 			$id = $id_actualite->fetch(); 
 			//echo $id[0]; 
 			
-			$f = $bdd->query('SELECT fichier FROM actualite INNER JOIN image ON image.idact = actualite.id AND actualite.id = \''.$id[0].'\' ' ); 
-			$name_file = $f ->fetch(); 
+			// $f = $bdd->query('SELECT fichier FROM actualite INNER JOIN image ON image.idact = actualite.id AND actualite.id = \''.$id[0].'\' ' ); 
+			// $name_file = $f ->fetch(); 
 			//echo $name_file[0];
 			
 			

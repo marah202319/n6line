@@ -90,7 +90,7 @@ while($donnees=$rep->fetch()){
 	echo('<p> Par '.$donnees['prenom'].' '.$donnees['nom'].'<p>');
 	
 	?>
-		<a href='./traitement/commenter.php?id=<?php echo $donnees['idact']; ?> '>Commenter <?php echo '('.count_com($donnees['idact']).')' ; ?> </a>
+		<a href='./commenter.php?id=<?php echo $donnees['idact']; ?> '>Commenter <?php echo '('.count_com($donnees['idact']).')' ; ?> </a>
 	<?php
 	
 	echo('</div>');

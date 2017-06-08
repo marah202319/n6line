@@ -20,7 +20,7 @@
 			$contenu = $_POST['contenu'];
 			$time = date("Y-m-d H:i:s");
 				
-			include('mots_interdits.php'); 
+			include('mots_interdits_accueil.php'); 
 				
 			if($existe == FALSE ){
 				
@@ -38,10 +38,10 @@
 				$insert_commente = $bdd->prepare('INSERT INTO commente(idact,idcom) VALUES(\''.$_GET['id'].'\', \''.$id_commentaire[0].'\'  ) '); 
 				$insert_commente ->execute(); 
 				
-				header('location:commenter.php?id='.$_GET['id']); 
+				header('location:../commenter.php?id='.$_GET['id']); 
 			}
 			else{
-				header('location:commenter.php?id='.$_GET['id']); 
+				header('location:../commenter.php?id='.$_GET['id']); 
 			}
 				
 		}
@@ -50,7 +50,7 @@
 			/*echo"<script language=\"javascript\">" ; 
 			echo"alert('Vous devez saisir au moins du texte pour pouvoir publier')";
 			echo"</script>";*/
-			header('location:commenter.php?id='.$_GET['id']);  
+			header('location:../commenter.php?id='.$_GET['id']);  
 			}
 	}
 			

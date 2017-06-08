@@ -15,5 +15,5 @@ echo $id_page[0];
 $bdd->query('DELETE FROM commentaire WHERE id = \''.$_GET['id'].'\' ');
 $bdd->query('DELETE FROM commente WHERE idcom = \''.$_GET['id'].'\' '); 
 
-header('location:commenter.php?id='.$id_page[0]); 
+header('location:../commenter.php?id='.$id_page[0]); 
 ?>
