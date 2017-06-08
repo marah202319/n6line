@@ -13,3 +13,17 @@ text-align:center;
 overflow: auto;
 
 }
+
+.chat{
+position:fixed;
+right:20px;
+bottom:0px;
+}
+     
+          
+.navbar-inverse .navbar-nav>li>a {
+color:white;
+}
+.navbar-inverse .navbar-nav>li>a:hover {
+ color:#abb9f8;
+}

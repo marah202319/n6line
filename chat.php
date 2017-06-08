@@ -162,7 +162,8 @@ header('Location: ./index.php');
 </div>
 
 <?php
- setcookie('variable',$_GET['valeur'],time()+3600) ; ?>
+if(isset($_GET['valeur'])){
+setcookie('variable',$_GET['valeur'],time()+3600) ; }?>
 
 <form name="x" action="./accueil.php" method="post">
 <input type="submit" value="Accueil">
