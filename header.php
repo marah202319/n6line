@@ -42,7 +42,7 @@ header('Location: ./traitement/deconnexion.php');
   
   </head>
 
-  <body style=" background: #aaa;" onload='refresh_liste(); refresh_actualite(); refresh_chat();'>
+<header>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -114,3 +114,6 @@ aria-hidden="true"></span> <span class="caret"></span></a>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+	</header>
+	
+	 <body style=" background: #aaa;" onload='refresh_liste(); refresh_actualite(); refresh_chat();'>

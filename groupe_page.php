@@ -181,9 +181,9 @@ setTimeout('refresh_liste()', 1500);
 				$titre = $_POST['titre']; 
 				$time = date("Y-m-d H:i:s");
 				
-				include('./traitement/mots_interdits.php'); 
-			if($existe == FALSE ){ 
-			$insert_actualite = $bdd->prepare('INSERT INTO actualite(titre,contenu,position,fichier,date) VALUES( :titre , :contenu,:position, \'\' ,\''.$time.'\')'); 
+				//include('./traitement/mots_interdits.php'); 
+			//if($existe == FALSE ){ 
+			$insert_actualite = $bdd->prepare('INSERT INTO actualite(titre,contenu,position,fichier,date,mkgroup) VALUES( :titre , :contenu,:position, \'\' ,\''.$time.'\','.$_GET['valeur'].')'); 
 			$insert_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu'], 'position' => $_POST['position']));
 				$id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
 						$id_actualite = $bdd ->prepare('SELECT id from actualite where titre = :titre and contenu = :contenu') ; 
@@ -192,10 +192,10 @@ setTimeout('refresh_liste()', 1500);
 				$id_uti = $id_utilisateur->fetch();
 				$id_act = $id_actualite ->fetch(); 
 			
-				$insert_post = $bdd->query('INSERT INTO post VALUES(\''.$id_uti[0].'\',\''.$id_act[0].'\') '); 
+				$insert_post = $bdd->query('INSERT INTO post VALUES(\''.$id_uti[0].'\',\''.$id_act[0].'\',0) '); 
 			
 				//header("location:profil.php"); 
-			}
+			//}
 			}
 		
 			else{
@@ -207,10 +207,10 @@ setTimeout('refresh_liste()', 1500);
 		}
 		
 		
-		echo('<h2> Mes publications </h2>');
+		echo('<h2> Publications du groupe: </h2>');
 								$rep = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' ');  
 						$id_utilisateur = $rep->fetch(); 
-		$rep = $bdd->query('SELECT * FROM actualite INNER JOIN post on actualite.id = post.idact INNER JOIN utilisateur on post.iduti = utilisateur.id where utilisateur.id = \''.$id_utilisateur[0].'\' ORDER BY date desc');
+		$rep = $bdd->query('SELECT * FROM actualite INNER JOIN post on actualite.id = post.idact INNER JOIN utilisateur on post.iduti = utilisateur.id where actualite.mkgroup='.$_GET['valeur'].' ORDER BY date desc');
 
 		include('./traitement/smiley.php'); 
 		while($donnees=$rep->fetch()){
@@ -226,7 +226,7 @@ setTimeout('refresh_liste()', 1500);
 			
 
 			echo('<h2>'.$donnees['titre'].'</h2>');
-			echo('<p>'.filtre_texte($donnees['contenu']).'<p>');
+			echo('<p>'.$donnees['contenu'].'<p>');
 			if($donnees['position'] != ''){
 				echo('<p>'.'À '.$donnees['position'].'</p>'); 
 			}
@@ -242,22 +242,7 @@ setTimeout('refresh_liste()', 1500);
             </div>
             
          </div>
-        <div class="row">
-             <div class="chat col-md-3">
-                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class=panel-title>Chat</h3>
-                     </div>
-                     <div class="panel-body">
-                     Oussama : Salut <br/>
-                     User : Comment tu vas ?<br/>
-                     Oussama : bien ou quoi ?<br/>
-                     user : Ouai tranquille !<br/>
-                     </div>
-                 </div>
-            </div>
-        </div>
-    </div><!-- /.container -->
+
         
 
     <!-- Bootstrap core JavaScript

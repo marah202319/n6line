@@ -98,21 +98,7 @@ setTimeout('refresh_liste()', 3000);
 				</div>
 				
 	</div>
-			<div class="row">
-				 <div class="chat col-md-3">
-					 <div class="panel panel-primary">
-					 <div class="panel-heading">
-						 <h3 class=panel-title>Chat</h3></div>
-						 <div class="panel-body">
-						 Oussama : Salut <br/>
-						 User : Comment tu vas ?<br/>
-						 Oussama : bien ou quoi ?<br/>
-						 user : Ouai tranquille !<br/>
-						 </div>
-					 </div>
-				</div>
-		</div>
-    </div>
+
         
 
     <!-- Bootstrap core JavaScript

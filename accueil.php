@@ -189,7 +189,7 @@ setTimeout('refresh_chat()', 1500);
 					<div class="well" >
 						<div id ="Publication" class="row">
 							
-							<form name="Publier" action="./traitement/actualite_groupe.php" method="post">
+							<form name="Publier" action="./traitement/actualite.php" method="post">
 							
 								<input type="textarea" placeholder="Un titre" name="titre" style="height: 5%; width: 100%">
 								<input type="textarea" placeholder="Où étiez-vous ? " name="position" style="height: 5%; width: 100%">
@@ -217,21 +217,7 @@ setTimeout('refresh_chat()', 1500);
 					
 				</div>
 	</div>
-			<div class="row">
-				 <div class="chat col-md-3">
-					 <div class="panel panel-primary">
-					 <div class="panel-heading">
-						 <h3 class=panel-title>Chat</h3></div>
-						 <div class="panel-body">
-						 Oussama : Salut <br/>
-						 User : Comment tu vas ?<br/>
-						 Oussama : bien ou quoi ?<br/>
-						 user : Ouai tranquille !<br/>
-						 </div>
-					 </div>
-				</div>
-		</div>
-    </div>
+
         
 
     <!-- Bootstrap core JavaScript

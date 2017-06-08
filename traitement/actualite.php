@@ -27,9 +27,9 @@ echo ('Bienvenue '.$accueil['nom'].' '.$accueil['prenom'].' ');
 			$id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
 			$id_uti = $id_utilisateur->fetch();
 			
-			include('./mots_interdits.php'); 
+			//include('./mots_interdits.php'); 
 			if($existe == FALSE ){ 
-			$insert_actualite = $bdd->prepare('INSERT INTO actualite(titre,contenu,position,fichier,date) VALUES( :titre , :contenu,:position, \'\' ,\''.$time.'\')'); 
+			$insert_actualite = $bdd->prepare('INSERT INTO actualite(titre,contenu,position,fichier,date,mkgroup) VALUES( :titre , :contenu,:position, \'\' ,\''.$time.'\',0)'); 
 			$insert_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu'], 'position' => $_POST['position']));
 			
 
@@ -65,7 +65,7 @@ echo ('Bienvenue '.$accueil['nom'].' '.$accueil['prenom'].' ');
 	
 	
 echo('<h1> Les actualités :</h1>');
-$rep = $bdd->query('SELECT * FROM actualite INNER JOIN post on actualite.id = post.idact INNER JOIN utilisateur on post.iduti = utilisateur.id ORDER BY date desc');
+$rep = $bdd->query('SELECT * FROM actualite INNER JOIN post on actualite.id = post.idact INNER JOIN utilisateur on post.iduti = utilisateur.id WHERE mkgroup = 0 ORDER BY date desc');
 
 			$id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
 			$id_uti = $id_utilisateur->fetch();
