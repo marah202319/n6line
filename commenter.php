@@ -58,7 +58,7 @@ header('Location: ./traitement/deconnexion.php');
 							}
 							echo('</br>');
 							echo('<p>'.$donnees['date'].'<p>');
-							echo('<p> Par '.$donnees['prenom'].' '.$donnees['nom'].'<p>');
+							echo('<p> Par <a href="./profil_autre?id='.$donnees['id'].'" class="btn-sm btn-info" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span>'.$donnees['prenom'].' '.$donnees['nom'].' </a></p>');
 							echo('</div>');
 						}
 
@@ -98,7 +98,7 @@ header('Location: ./traitement/deconnexion.php');
 							
 							$id_utilisateur = $bdd ->query('SELECT DISTINCT nom,prenom from utilisateur INNER JOIN commentaire ON utilisateur.id  = \''.$donnees['idutil'].'\' ') ; 
 							while($id = $id_utilisateur->fetch()){
-								echo 'Commenté par : '.$id['nom'].' '.$id['prenom'] ; 
+								echo('<p> Commenté par <a href="./profil_autre?id='.$donnees['idutil'].'" class="btn-sm btn-info" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span>'.$id['prenom'].' '.$id['nom'].' </a></p>');
 							}
 							echo('</div>');
 							echo '</br>' ; 

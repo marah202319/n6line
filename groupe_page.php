@@ -56,8 +56,15 @@ setTimeout('refresh_liste()', 1500);
 <?php 
 	$login = $_SESSION['login'] ;
 	
-	$req = $bdd->query('SELECT nom,prenom from utilisateur where uha =\''.$login.'\' ');  
+	$req = $bdd->query('SELECT nom,prenom,id from utilisateur where uha =\''.$login.'\' ');  
 	$donnees = $req->fetch(); 
+	
+	$group=$bdd->query('SELECT idUtil from appartient where idGroup = '.$_GET['valeur'].' AND idUtil = '.$donnees['id'].' ');
+	$valid = $group->fetch();
+	
+	if($valid==NULL){
+		echo('<script>window.location = "./error_groupe.php";</script>');
+	}
 	
 	
 	echo '<title>'.$donnees['prenom']." ".$donnees['nom'].'</title>' ; 
@@ -185,6 +192,7 @@ setTimeout('refresh_liste()', 1500);
 			if($existe == FALSE ){ 
 			$insert_actualite = $bdd->prepare('INSERT INTO actualite(titre,contenu,position,fichier,date,mkgroup) VALUES( :titre , :contenu,:position, \'\' ,\''.$time.'\','.$_GET['valeur'].')'); 
 			$insert_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu'], 'position' => $_POST['position']));
+					
 				$id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
 						$id_actualite = $bdd ->prepare('SELECT id from actualite where titre = :titre and contenu = :contenu') ; 
 			$id_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu']));
@@ -230,6 +238,7 @@ setTimeout('refresh_liste()', 1500);
 			if($donnees['position'] != ''){
 				echo('<p>'.'À '.$donnees['position'].'</p>'); 
 			}
+			echo('<p> Par <a href="./profil_autre?id='.$donnees['id'].'" class="btn-sm btn-info" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span>'.$donnees['prenom'].' '.$donnees['nom'].' </a></p>');
 			echo('</br>');
 			echo('<p>'.$donnees['date'].'<p>');
 			echo('</div>');
