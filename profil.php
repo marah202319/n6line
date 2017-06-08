@@ -156,6 +156,7 @@ setTimeout('refresh_liste()', 1500);
 				<input type="submit" name="Modifier" value="Modifier" >
 				
 			</form>
+
                           </div>
                         </div>
                      </div>  
@@ -165,44 +166,51 @@ setTimeout('refresh_liste()', 1500);
                     <a href="#">Changer votre photo de profil</a><br/>
                     <a href="./traitement/modification_profil.php">Modifier</a><br/>
                    </div>
-                   <div class="well" >
-			<form name="Publier" method="post">
+                   <div class="well" id ="Publication">
+			<form name="Publier" method="post" enctype="multipart/form-data">
+
 		
 				<input type="textarea" placeholder="Un titre" name="titre" style="height: 5%; width: 100%">
 				<input type="textarea" placeholder="Où étiez-vous ? " name="position" style="height: 5%; width: 100%">
 				<input type="textarea" placeholder="Rédigez votre publication ici" name="contenu" style="height: 10%; width: 100%"> 
 				<input type ="submit" name="Publier" value="Publier" >
-				<input type ="submit" name="Photo/video" value="Photo/vidéo" >
-				
+				<input type="hidden" name="MAX_FILE_SIZE" value="100000"> Fichier : <input type="file" name="fichier"> <!-- onchange="this.form.submit()" -->
 				
 			</form>
+
                    </div>
             <div class="well" >
                <?php
 			if(isset($_POST['Publier'])){ 
 				if(!empty($_POST['contenu'])){ 
-				echo '<p> OK ! </p>' ; 
 				
-			 
+				
 				$contenu = $_POST['contenu'];
 				$titre = $_POST['titre']; 
 				$time = date("Y-m-d H:i:s");
+				$fichier = $_FILES['fichier']['name'] ; 
 				
 				include('./traitement/mots_interdits.php'); 
+
 			if($existe == FALSE ){ 
-			$insert_actualite = $bdd->prepare('INSERT INTO actualite(titre,contenu,position,fichier,date,mkgroup) VALUES( :titre , :contenu,:position, \'\' ,\''.$time.'\',0)'); 
-			$insert_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu'], 'position' => $_POST['position']));
-				$id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
+			$insert_actualite = $bdd->prepare('INSERT INTO actualite(titre,contenu,position,fichier,date,mkgroup) VALUES( :titre , :contenu,:position, :fichier ,\''.$time.'\',0)'); 
+			$insert_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu'], 'position' => $_POST['position'],'fichier' =>$_FILES['fichier']['name'] ));
+			include('./traitement/upload.php'); 
+        $id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
 						$id_actualite = $bdd ->prepare('SELECT id from actualite where titre = :titre and contenu = :contenu') ; 
+
 			$id_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu']));
 			
 				$id_uti = $id_utilisateur->fetch();
 				$id_act = $id_actualite ->fetch(); 
 			
+
 				$insert_post = $bdd->query('INSERT INTO post VALUES(\''.$id_uti[0].'\',\''.$id_act[0].'\',0) '); 
 			
 				//header("location:profil.php"); 
+
 			}
+			
 			}
 		
 			else{
@@ -219,22 +227,48 @@ setTimeout('refresh_liste()', 1500);
 						$id_utilisateur = $rep->fetch(); 
 		$rep = $bdd->query('SELECT * FROM actualite INNER JOIN post on actualite.id = post.idact INNER JOIN utilisateur on post.iduti = utilisateur.id where utilisateur.id = \''.$id_utilisateur[0].'\' AND actualite.mkgroup = 0 ORDER BY date desc');
 
+		if (isset($_FILES['fichier'])){
+			echo $_FILES['fichier']['name'] ; 
+		}
+		
 		include('./traitement/smiley.php'); 
+		include('traitement/nb_coms.php'); 
+		
 		while($donnees=$rep->fetch()){
 			echo('<div class="well">');
 			$id_actualite = $bdd ->query('SELECT id from actualite where contenu = \''.$donnees['contenu'].'\' and titre = \''.$donnees['titre'].'\' ') ; 
 			$id = $id_actualite->fetch(); 
-						?>	
+			//echo $id[0]; 
+			
+			$f = $bdd->query('SELECT fichier FROM actualite INNER JOIN image ON image.idact = actualite.id AND actualite.id = \''.$id[0].'\' ' ); 
+			$name_file = $f ->fetch(); 
+			//echo $name_file[0];
+			
+			
+			?>	
 				<a href='./traitement/deleteOnProfile.php?id=<?php echo $id[0]; ?> '>Supprimer</a>
 			<?php 
-
 			echo('<h2>'.$donnees['titre'].'</h2>');
+			
+			
+			/*if($donnees['fichier'] != ''){
+				echo "<img src="; 
+				echo './uploaded/'; 
+				echo ''.$donnees['contenu'].''; 
+				echo 'width="200" height="200">';   
+			}*/
+			
 			echo('<p>'.filtre_texte($donnees['contenu']).'<p>');
 			if($donnees['position'] != ''){
 				echo('<p>'.'À '.$donnees['position'].'</p>'); 
 			}
 			echo('</br>');
 			echo('<p>'.$donnees['date'].'<p>');
+			?>
+			
+				<a href='./traitement/commenter.php?id=<?php echo $id[0]; ?> '>Commenter <?php echo '('.count_com($id[0]).')' ; ?> </a>
+			
+			<?php
 			echo('</div>');
 }
 
@@ -242,6 +276,7 @@ setTimeout('refresh_liste()', 1500);
 		echo('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>');
 	
 	?>
+
             </div>
             
          </div>
@@ -256,3 +291,4 @@ setTimeout('refresh_liste()', 1500);
     
   </body>
 </html>
+
