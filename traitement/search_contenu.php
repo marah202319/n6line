@@ -15,46 +15,55 @@
 	include('./smiley.php');
 	echo('<h2> Recherche dans les contenus : </h2>');
 	while($result=$search->fetch()){
+	if($result['mkgroup'] == 0){
+		
 		echo('<div class="well">');
 		echo('<h2>'.$result['titre'].'</h2>');
 		echo('<p>'.filtre_texte($result['contenu']).'<p>');
 		if($result['position'] != ''){
 		echo('<p>'.'A '.$result['position'].'</p>'); 
-	}
+		}
+	
 	echo('</br>');
 	echo('<p>'.$result['date'].'<p>');
 	echo('<p> Par '.$result['prenom'].' '.$result['nom'].'<p>');
 	echo('</div>');
+	}
 	}
 	
 		echo('<h2> Recherche dans les titres : </h2>');
 	while($result=$search_title->fetch()){
+		if($result['mkgroup'] == 0){
 		echo('<div class="well">');
 		echo('<h2>'.$result['titre'].'</h2>');
 		echo('<p>'.filtre_texte($result['contenu']).'<p>');
 		if($result['position'] != ''){
 		echo('<p>'.'A '.$result['position'].'</p>'); 
-	}
+		}
+	
 	echo('</br>');
 	echo('<p>'.$result['date'].'<p>');
 	echo('<p> Par '.$result['prenom'].' '.$result['nom'].'<p>');
 	echo('</div>');
+	}
 	}
 	
 			echo('<h2> Recherche dans les positions : </h2>');
 	while($result=$search_pos->fetch()){
+		if($result['mkgroup'] == 0){
 		echo('<div class="well">');
 		echo('<h2>'.$result['titre'].'</h2>');
 		echo('<p>'.filtre_texte($result['contenu']).'<p>');
 		if($result['position'] != ''){
 		echo('<p>'.'A '.$result['position'].'</p>'); 
-	}
+		}
+	
 	echo('</br>');
 	echo('<p>'.$result['date'].'<p>');
 	echo('<p> Par '.$result['prenom'].' '.$result['nom'].'<p>');
 	echo('</div>');
 	}
-		
+	}
 	}
 
 

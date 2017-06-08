@@ -188,8 +188,8 @@ setTimeout('refresh_liste()', 1500);
 				$titre = $_POST['titre']; 
 				$time = date("Y-m-d H:i:s");
 				
-				//include('./traitement/mots_interdits.php'); 
-			//if($existe == FALSE ){ 
+				include('./traitement/mots_interdits.php'); 
+			if($existe == FALSE ){ 
 			$insert_actualite = $bdd->prepare('INSERT INTO actualite(titre,contenu,position,fichier,date,mkgroup) VALUES( :titre , :contenu,:position, \'\' ,\''.$time.'\',0)'); 
 			$insert_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu'], 'position' => $_POST['position']));
 				$id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
@@ -203,7 +203,7 @@ setTimeout('refresh_liste()', 1500);
 			
 				//header("location:profil.php"); 
 			}
-			//}
+			}
 		
 			else{
 				/*echo"<script language=\"javascript\">" ; 

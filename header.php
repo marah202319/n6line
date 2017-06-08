@@ -24,21 +24,14 @@ header('Location: ./traitement/deconnexion.php');
 
     <!-- Bootstrap core CSS -->
     <link href="./CSS/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-      <style>
-          .chat{
-              position:fixed;
-              right:20px;
-              bottom:0px;
-          }
-     
-          
-          .navbar-inverse .navbar-nav>li>a {
-              color:white;
-          }
-           .navbar-inverse .navbar-nav>li>a:hover {
-               color:#abb9f8;
-          }
-      </style>
+<style>
+.navbar-inverse .navbar-nav>li>a {
+color:white;
+}
+.navbar-inverse .navbar-nav>li>a:hover {
+ color:#abb9f8;
+}
+</style>
   
   </head>
 

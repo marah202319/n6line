@@ -27,7 +27,7 @@ echo ('Bienvenue '.$accueil['nom'].' '.$accueil['prenom'].' ');
 			$id_utilisateur = $bdd->query('SELECT id from utilisateur where uha =\''.$login.'\' '); 
 			$id_uti = $id_utilisateur->fetch();
 			
-			//include('./mots_interdits.php'); 
+			include('./mots_interdits_accueil.php'); 
 			if($existe == FALSE ){ 
 			$insert_actualite = $bdd->prepare('INSERT INTO actualite(titre,contenu,position,fichier,date,mkgroup) VALUES( :titre , :contenu,:position, \'\' ,\''.$time.'\',0)'); 
 			$insert_actualite->execute(array('titre' => $_POST['titre'], 'contenu' => $_POST['contenu'], 'position' => $_POST['position']));
