@@ -146,7 +146,7 @@ setTimeout('refresh_liste()', 1500);
                     <a href="#">Paramètres du compte</a><br/>
                     <a href="#">Changer votre photo de profil</a><br/>
                     <php> 
-                        if($date['day']==date("d"); $date['month']==date("m");$annee = $date['year']==date("y")){
+                        if($date['day']==date("d"); $date['month']==date("m")){
                         
                         <p>C'est votre anniversaire aujourd'hui .
                         </p>
