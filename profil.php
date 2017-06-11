@@ -86,6 +86,13 @@ setTimeout('refresh_liste()', 1500);
 							echo('Prénom : '.$donnees['prenom'].'</br>');
 							echo('Adresse UHA : '.$donnees['uha'].'</br>');
 							echo('Âge : age('.$donnees['date'].') ans</br>');
+						 
+							if($date['day']==date("d"); $date['month']==date("m")){
+
+							<p>C est votre anniversaire aujourd hui .
+							</p>
+							} 
+						    
 							echo('Adresse : '.$donnees['adresse'].'</br>');
 						}
 						
@@ -145,13 +152,7 @@ setTimeout('refresh_liste()', 1500);
                   <div class="well"> 
                     <a href="#">Paramètres du compte</a><br/>
                     <a href="#">Changer votre photo de profil</a><br/>
-                    <php> 
-                        if($date['day']==date("d"); $date['month']==date("m")){
-                        
-                        <p>C'est votre anniversaire aujourd'hui .
-                        </p>
-                        } 
-                    </php>
+                    
                     <a href="./traitement/modification_profil.php">Modifier</a><br/>
                    </div>
                    <div class="well" id ="Publication">
